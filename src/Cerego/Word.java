@@ -65,15 +65,15 @@ public class Word {
 
     @Override
     public String toString() {
-        StringBuilder wordToPrint = new StringBuilder("Word= " + word + '\n' +
+        StringBuilder wordToPrint = new StringBuilder("Word=" + word + '\n' +
                 "IPA=" + IPA + '\n' +
                 "PronunciationURL=" + pronunciationURL + '\n');
-        wordToPrint.append("Infections=");
+        wordToPrint.append("Infections=\n");
         for(String infection : inflections) {
             wordToPrint.append("\t").append(infection).append("\n");
         }
         wordToPrint.append("Def= ").append(def).append("\n");
-        wordToPrint.append("Example=");
+        wordToPrint.append("Example=\n");
         for(Example example : examples) {
             wordToPrint.append("\t").append(example.toString()).append("\n");
         }

@@ -4,12 +4,12 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal">
+<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cerego.Controller">
       <VBox prefHeight="660.0" prefWidth="500.0" spacing="10.0">
             <HBox prefHeight="35.0" prefWidth="300.0" spacing="10.0">
                   <Label text="Word" />
-                  <TextField prefHeight="26.0" prefWidth="328.0" />
-                  <Button mnemonicParsing="false" prefHeight="26.0" prefWidth="79.0" text="Find" />
+                  <TextField fx:id="keyWordTF" prefHeight="26.0" prefWidth="328.0" />
+                  <Button mnemonicParsing="false" onAction="#handleFindBtn" prefHeight="26.0" prefWidth="79.0" text="Find" />
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                </VBox.margin>
