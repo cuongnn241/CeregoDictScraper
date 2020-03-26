@@ -141,7 +141,7 @@ public class Controller {
         for (int i = 4; i < rawFields.length; i++)
             examples.add(rawFields[i]);
         listOfWords.add(new ExportedWord(headWord, IPA, soundURL, def, examples));
-        listOfExportedWord.append(wordNumber++).append(" " + headWord).append("\n");
+        listOfExportedWord.append(++wordNumber).append(" " + headWord).append("\n");
         clearTF();
         exportedWordTextArea.setText(listOfExportedWord.toString());
     }
