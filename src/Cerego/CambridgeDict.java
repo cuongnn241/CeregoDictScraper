@@ -1,15 +1,14 @@
 package Cerego;
 
+import javafx.scene.control.TextInputDialog;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class CambridgeDict extends Dictionary {
-    private static final String searchQuery = "https://dictionary.cambridge.org/search/english/direct/?source=gadgets&q=";
+    public static final String searchQuery = "https://dictionary.cambridge.org/search/english/direct/?source=gadgets&q=";
 
     CambridgeDict(String keyWord) {
         try {
@@ -51,8 +50,11 @@ public class CambridgeDict extends Dictionary {
         Elements meanings = getPage().select(".pr .dictionary[data-id=\"cald4\"] .entry-body .pos-body > .pr > .sense-body");
         Element meaningField;
         if (meanings.size() > 1) {
-            JFrame frame = new JFrame();
-            int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Cambridge: There are more than 1 meaning, choose one meaning"));
+            TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
+            meaningChoiseDialog.setTitle("Cambridge Dictionary");
+            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.showAndWait();
+            int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
             meaningField = meanings.get(userChoice - 1);
         } else {
             meaningField = meanings.first();
@@ -60,8 +62,11 @@ public class CambridgeDict extends Dictionary {
         Elements specMeaning = meaningField.select("> .def-block");
         Element defAndEx;
         if (specMeaning.size() > 1) {
-            JFrame frame = new JFrame();
-            int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Cambridge: There are more than 1 meaning, choose one meaning"));
+            TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
+            meaningChoiseDialog.setTitle("Cambridge Dictionary");
+            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.showAndWait();
+            int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
             defAndEx = specMeaning.get(userChoice - 1);
         } else {
             defAndEx = specMeaning.first();

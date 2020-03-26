@@ -4,11 +4,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<HBox alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cerego.Controller">
+<HBox fx:id="windowID" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1229.0" spacing="10.0" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Cerego.Controller">
       <VBox prefHeight="660.0" prefWidth="500.0" spacing="10.0">
             <HBox prefHeight="35.0" prefWidth="300.0" spacing="10.0">
                   <Label text="Word" />
-                  <TextField fx:id="keyWordTF" prefHeight="26.0" prefWidth="328.0" />
+                  <TextField fx:id="keyWordTF" onKeyPressed="#keyWordEnterAction" prefHeight="26.0" prefWidth="328.0" />
                   <Button mnemonicParsing="false" onAction="#handleFindBtn" prefHeight="26.0" prefWidth="79.0" text="Find" />
                <VBox.margin>
                   <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -35,6 +35,8 @@
       <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="500.0">
                   <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleretryWithLink" prefHeight="26.0" prefWidth="92.0" text="Retry W/ Link" />
       </HBox>
+      <Label text="Exported Words" />
+      <TextArea fx:id="exportedWordTextArea" editable="false" prefHeight="200.0" prefWidth="200.0" wrapText="true" />
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>
@@ -46,8 +48,24 @@
          </VBox.margin></Label>
             <TextArea fx:id="checkTextArea" prefHeight="483.0" prefWidth="655.0" wrapText="true" />
             <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="655.0">
-                  <Button mnemonicParsing="false" text="Button" />
-                  <Button mnemonicParsing="false" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#handleAddBtn" prefHeight="26.0" prefWidth="129.0" text="Add">
+            <HBox.margin>
+               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+            </HBox.margin></Button>
             </HBox>
+      <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <Label text="File Directory" />
+            <TextField fx:id="fileDirectoryTF" prefHeight="26.0" prefWidth="452.0" />
+            <Button mnemonicParsing="false" onAction="#handleBrowse" prefHeight="26.0" prefWidth="94.0" text="Browse" />
+         <VBox.margin>
+            <Insets />
+         </VBox.margin>
+      </HBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+         <children>
+                     <Button mnemonicParsing="false" onAction="#handleExportBtn" prefHeight="26.0" prefWidth="141.0" text="Export" />
+            <Button mnemonicParsing="false" onAction="#handleExit" prefHeight="26.0" prefWidth="88.0" text="Quit" />
+         </children>
+      </HBox>
       </VBox>
 </HBox>

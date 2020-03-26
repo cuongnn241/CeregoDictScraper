@@ -1,14 +1,14 @@
 package Cerego;
 
+import javafx.scene.control.TextInputDialog;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class LongmanDict extends Dictionary {
-    private static final String searchQuery = "https://www.ldoceonline.com/search/english/direct/?q=";
+    public static final String searchQuery = "https://www.ldoceonline.com/search/english/direct/?q=";
 
     LongmanDict(String keyWord) {
         try {
@@ -49,8 +49,11 @@ public class LongmanDict extends Dictionary {
         Elements meanings = getPage().select(".dictionary > .dictentry").first().select(".Sense");
         Element defAndEx;
         if (meanings.size() > 1) {
-            JFrame frame = new JFrame();
-            int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Longman: There are more than 1 meaning, choose one meaning"));
+            TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
+            meaningChoiseDialog.setTitle("Longman Dictionary");
+            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.showAndWait();
+            int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
             defAndEx = meanings.get(userChoice - 1);
         } else {
             defAndEx = meanings.first();

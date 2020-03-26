@@ -1,11 +1,11 @@
 package Cerego;
 
+import javafx.scene.control.TextInputDialog;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
+
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class OxfordDict extends Dictionary{
@@ -88,8 +88,12 @@ public class OxfordDict extends Dictionary{
         Elements defAndEx = getPage().select(".entry > .sense_single");
         if (defAndEx.isEmpty()) {
             //The word has more than 1 meaning
-            JFrame frame = new JFrame();
-            int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Oxford: There are more than 1 meaning, choose one meaning"));
+            TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
+            meaningChoiseDialog.setTitle("Oxford Dictionary");
+            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.showAndWait();
+            int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
+            System.out.println(userChoice);
             String meaningTag = "[sensenum=" + userChoice + "]";
             defAndEx = getPage().select(".entry > .senses_multiple .sense" + meaningTag);
         }

@@ -17,6 +17,10 @@ public class Word {
         inflections = null;
     }
 
+    Word() {
+        clearWord();
+    }
+
     Word(String word, String IPA, String pronunciationURL,String freqUse, String def, ArrayList<Example> examples, ArrayList<String> inflections) {
         this.word = word;
         this.IPA = IPA;
@@ -72,7 +76,8 @@ public class Word {
     }
 
     public void addExample(ArrayList<Example> newListofExample) {
-        examples.addAll(newListofExample);
+        if (newListofExample != null && !newListofExample.isEmpty())
+            examples.addAll(newListofExample);
     }
 
     public void standardizeForCerego() {

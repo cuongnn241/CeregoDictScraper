@@ -1,14 +1,14 @@
 package Cerego;
 
+import javafx.scene.control.TextInputDialog;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import javax.swing.*;
 import java.util.ArrayList;
 
 public class CollinDict extends Dictionary {
-    private static final String searchQuery = "https://www.collinsdictionary.com/search/?dictCode=english&q=";
+    public static final String searchQuery = "https://www.collinsdictionary.com/search/?dictCode=english&q=";
 
     CollinDict(String keyWord) {
         try {
@@ -46,11 +46,14 @@ public class CollinDict extends Dictionary {
     }
 
     public void setDefAndEx() {
-        Elements meanings = getPage().select(".dictionary.Cob_Adv_Brit.dictentry .sense");
+        Elements meanings = getPage().select(".dictionary.Cob_Adv_Brit .sense");
         Element defAndEx;
         if (meanings.size() > 1) {
-            JFrame frame = new JFrame();
-            int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Collin: There are more than 1 meaning, choose one meaning"));
+            TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
+            meaningChoiseDialog.setTitle("Collin Dictionary");
+            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.showAndWait();
+            int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
             defAndEx = meanings.get(userChoice - 1);
         } else {
             defAndEx = meanings.first();
