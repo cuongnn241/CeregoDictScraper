@@ -71,6 +71,7 @@ public class Controller {
         oxfordUrlTF.setText(oxfordAgent.getUrl());
         currentWord = new Word(oxfordAgent.getHeadWord(), oxfordAgent.getIPA(), oxfordAgent.getSoundURL(),
                 oxfordAgent.getFreqUse(),oxfordAgent.getDef(), oxfordAgent.getExamples(), oxfordAgent.getInflections());
+        currentWord.setPos(oxfordAgent.getPos());
 
         CambridgeDict cambridgeAgent = new CambridgeDict(keyWordTF.getText());
         cambridgeUrlTF.setText(cambridgeAgent.getUrl());
@@ -96,6 +97,7 @@ public class Controller {
         OxfordDict oxfordAgent = new OxfordDict(keyWordTF.getText(), oxfordUrlTF.getText());
         currentWord = new Word(oxfordAgent.getHeadWord(), oxfordAgent.getIPA(), oxfordAgent.getSoundURL(),
                 oxfordAgent.getFreqUse(),oxfordAgent.getDef(), oxfordAgent.getExamples(), oxfordAgent.getInflections());
+        currentWord.setPos(oxfordAgent.getPos());
 
         CambridgeDict cambridgeAgent = new CambridgeDict(keyWordTF.getText(), cambridgeUrlTF.getText());
         cambridgeUrlTF.setText(cambridgeAgent.getUrl());

@@ -83,8 +83,6 @@ public class OxfordDict extends Dictionary{
                 inflections.remove(i);
         inflections.add(new Inflection(getHeadWord()));
         super.setInflections(inflections);
-        for (Inflection inf : inflections)
-            System.out.println(inf.getInflection());
     }
 
     @Override

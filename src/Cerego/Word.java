@@ -8,6 +8,7 @@ public class Word {
     private String pronunciationURL;
     private String freqUse;
     private String def;
+    private String pos;
     private ArrayList<Example> examples;
     private ArrayList<Inflection> inflections;
 
@@ -121,8 +122,8 @@ public class Word {
     public String toString() {
         StringBuilder infoToPrint = new StringBuilder(word + '\n' + IPA + '\n' + pronunciationURL + '\n');
         if (!freqUse.isEmpty())
-            infoToPrint.append(freqUse).append(" ");
-            infoToPrint.append(def);
+            infoToPrint.append(freqUse).append(" - ");
+            infoToPrint.append("(" + pos + ") " + def);
         for(Example example : examples) {
             infoToPrint.append("\n").append(example.toString());
         }
@@ -135,5 +136,9 @@ public class Word {
 
     public void setFreqUse(String freqUse) {
         this.freqUse = freqUse;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
     }
 }
