@@ -52,34 +52,39 @@ public class OxfordDict extends Dictionary{
     }
 
     public void setInflections() {
-        ArrayList<String> inflections = new ArrayList<>();
+        ArrayList<Inflection> inflections = new ArrayList<>();
         if (getPos().equals("noun")) {
             Elements plural = getPage().select(".inflections > .inflected_form");
             for (Element form : plural) {
-                inflections.add(form.ownText());
+                inflections.add(new Inflection(form.ownText()));
             }
-            inflections.add(getHeadWord() + "s");
-            inflections.add(getHeadWord() + "es");
+            inflections.add(new Inflection(getHeadWord() + "s"));
+            inflections.add(new Inflection(getHeadWord() + "es"));
         }
         if (getPos().equals("verb")) {
             Elements verbForms = getPage().select(".verb_form > .verb_form");
             if (verbForms.size() != 0) {
                 for (Element form : verbForms) {
-                    inflections.add(form.ownText());
+                    Inflection inflectionToAdd = new Inflection(form.ownText());
+                    String typeString = form.select("> .vf_prefix").text();
+                    inflectionToAdd.setType(typeString);
+                    inflections.add(inflectionToAdd);
                 }
             }
         }
         if (getPos().equals("adjective")) {
             Elements comparison = getPage().select(".inflections > .inflected_form");
             for (Element form : comparison) {
-                inflections.add(form.text());
+                inflections.add(new Inflection(form.text()));
             }
         }
         for (int i = 0; i < inflections.size(); i++)
-            if (inflections.get(i).equals(getHeadWord()))
+            if (inflections.get(i).getInflection().equals(getHeadWord()))
                 inflections.remove(i);
-        inflections.add(getHeadWord());
+        inflections.add(new Inflection(getHeadWord()));
         super.setInflections(inflections);
+        for (Inflection inf : inflections)
+            System.out.println(inf.getInflection());
     }
 
     @Override

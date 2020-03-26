@@ -9,7 +9,7 @@ public class Word {
     private String freqUse;
     private String def;
     private ArrayList<Example> examples;
-    private ArrayList<String> inflections;
+    private ArrayList<Inflection> inflections;
 
     public void clearWord() {
         word = IPA = pronunciationURL = def = freqUse = null;
@@ -21,7 +21,7 @@ public class Word {
         clearWord();
     }
 
-    Word(String word, String IPA, String pronunciationURL,String freqUse, String def, ArrayList<Example> examples, ArrayList<String> inflections) {
+    Word(String word, String IPA, String pronunciationURL,String freqUse, String def, ArrayList<Example> examples, ArrayList<Inflection> inflections) {
         this.word = word;
         this.IPA = IPA;
         this.pronunciationURL = pronunciationURL;
@@ -63,11 +63,11 @@ public class Word {
         return examples;
     }
 
-    public ArrayList<String> getInflections() {
+    public ArrayList<Inflection> getInflections() {
         return inflections;
     }
 
-    public void setInflections(ArrayList<String> inflections) {
+    public void setInflections(ArrayList<Inflection> inflections) {
         this.inflections = inflections;
     }
 
@@ -86,26 +86,28 @@ public class Word {
     }
 
     public void removeHeadWordFromFreqUse() {
-        for (String inflect : inflections) {
-            if (freqUse != null && freqUse.contains(inflect))
-                freqUse = freqUse.replace(inflect, "____");
+        for (Inflection inflect : inflections) {
+            if (freqUse != null && freqUse.contains(inflect.getInflection()))
+                freqUse = freqUse.replace(inflect.getInflection(), "____");
         }
     }
 
     public void removeHeadWordFromExample() {
         for (int i = 0; i < examples.size(); i++) {
-            for (String inflect : inflections) {
-                if (examples.get(i).getHeadExample() != null && examples.get(i).getHeadExample().contains(inflect))
-                    examples.get(i).setHeadExample(examples.get(i).getHeadExample().replace(inflect, "____"));
+            for (Inflection inflect : inflections) {
+                if (examples.get(i).getHeadExample() != null && examples.get(i).getHeadExample().contains(inflect.getInflection()))
+                    examples.get(i).setHeadExample(examples.get(i).getHeadExample().replace(inflect.getInflection(), "____"));
             }
-            for (String inflect : inflections) {
+            for (Inflection inflect : inflections) {
                 Boolean found = false;
                 String thisExample = examples.get(i).getExample();
                 String thisExampleLowerCase = thisExample.toLowerCase();
-                if (thisExampleLowerCase.contains(inflect)) {
-                    int firstIdx = thisExampleLowerCase.indexOf(inflect);
-                    int lastIdx = firstIdx + inflect.length();
+                if (thisExampleLowerCase.contains(inflect.getInflection())) {
+                    int firstIdx = thisExampleLowerCase.indexOf(inflect.getInflection());
+                    int lastIdx = firstIdx + inflect.getInflection().length();
                     String editSentence = thisExample.substring(0, firstIdx) + "*" + thisExample.substring(firstIdx, lastIdx) + "*" + thisExample.substring(lastIdx);
+                    if (inflect.hasType())
+                        editSentence += " [" + inflect.getType() + "]";
                     examples.get(i).setExample(editSentence);
                     found = true;
                 }

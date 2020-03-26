@@ -13,7 +13,7 @@ public abstract class Dictionary {
     private String pos;
     private String freqUse;
     private String def;
-    private ArrayList<String> inflections;
+    private ArrayList<Inflection> inflections;
     private ArrayList<Example> examples;
     private Document page;
 
@@ -82,11 +82,11 @@ public abstract class Dictionary {
         this.def = def;
     }
 
-    public ArrayList<String> getInflections() {
+    public ArrayList<Inflection> getInflections() {
         return inflections;
     }
 
-    public void setInflections(ArrayList<String> inflections) {
+    public void setInflections(ArrayList<Inflection> inflections) {
         this.inflections = inflections;
     }
 
