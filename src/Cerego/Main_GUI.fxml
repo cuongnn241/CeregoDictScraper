@@ -19,43 +19,32 @@
                   <Insets />
                </VBox.margin>
             </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="300.0" spacing="10.0">
-                  <TextField prefHeight="25.0" prefWidth="420.0" />
-                  <Button mnemonicParsing="false" text="Change" /></HBox>
+               <TextField fx:id="oxfordUrlTF" prefHeight="25.0" prefWidth="420.0" />
             <Label text="Cambridge URL">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
             </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="300.0" spacing="10.0">
-                  <TextField prefHeight="25.0" prefWidth="420.0" />
-                  <Button mnemonicParsing="false" text="Change" /></HBox>
+               <TextField fx:id="cambridgeUrlTF" prefHeight="25.0" prefWidth="420.0" />
             <Label prefHeight="18.0" prefWidth="85.0" text="Longman URL" />
-            <HBox alignment="CENTER_LEFT" prefHeight="25.0" prefWidth="300.0" spacing="10.0">
-                  <TextField prefHeight="25.0" prefWidth="420.0" />
-                  <Button mnemonicParsing="false" text="Change" /></HBox>
-            <Label text="MacMillan URL" />
-            <HBox alignment="BOTTOM_LEFT" prefHeight="35.0" prefWidth="300.0" spacing="10.0">
-                  <TextField prefHeight="26.0" prefWidth="420.0" />
-                  <Button mnemonicParsing="false" text="Change" />
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin></HBox>
+               <TextField fx:id="longmanUrlTF" prefHeight="25.0" prefWidth="420.0" />
             <Label text="Collin URL" />
-            <HBox alignment="CENTER_LEFT" prefHeight="35.0" prefWidth="300.0" spacing="10.0">
-                  <TextField prefHeight="5.0" prefWidth="420.0" />
-                  <Button mnemonicParsing="false" text="Change" />
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin></HBox>
-            <Button alignment="CENTER_RIGHT" mnemonicParsing="false" text="Button" />
+               <TextField fx:id="collinUrlTF" prefHeight="5.0" prefWidth="420.0" />
+            <Label text="MacMillan URL" />
+               <TextField fx:id="macMillanUrlTF" prefHeight="26.0" prefWidth="420.0" />
+      <HBox alignment="CENTER_RIGHT" prefHeight="38.0" prefWidth="500.0">
+                  <Button alignment="CENTER_RIGHT" mnemonicParsing="false" onAction="#handleretryWithLink" prefHeight="26.0" prefWidth="92.0" text="Retry W/ Link" />
+      </HBox>
          <HBox.margin>
             <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
          </HBox.margin>
       </VBox>
       <VBox prefHeight="700.0" prefWidth="655.0">
-            <Label text="Word Info" />
-            <TextArea prefHeight="483.0" prefWidth="655.0" wrapText="true" />
+            <Label text="Word Info">
+         <VBox.margin>
+            <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+         </VBox.margin></Label>
+            <TextArea fx:id="checkTextArea" prefHeight="483.0" prefWidth="655.0" wrapText="true" />
             <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="655.0">
                   <Button mnemonicParsing="false" text="Button" />
                   <Button mnemonicParsing="false" text="Button" />

@@ -32,8 +32,11 @@ public class Example {
 
     @Override
     public String toString() {
-        return "headExample='" + headExample + '\'' +
-                ", example='" + example + '\'';
+        StringBuilder stringToReturn = new StringBuilder();
+        if (headExample != null && !headExample.isEmpty())
+            stringToReturn.append(headExample).append(" | ");
+        stringToReturn.append(example);
+        return stringToReturn.toString();
     }
 }
 

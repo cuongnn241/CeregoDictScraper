@@ -8,146 +8,132 @@ import org.jsoup.select.Elements;
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class OxfordDict {
-    private static final String searchQuery = "https://www.oxfordlearnersdictionaries.com/search/english/?q=";
-    private String url;
-    private String headWord;
-    private String IPA;
-    private String soundURL;
-    private String pos;
-    private String freqUse;
-    private String def;
-    private ArrayList<String> inflections;
-    private ArrayList<Example> examples;
+public class OxfordDict extends Dictionary{
+    public static final String searchQuery = "https://www.oxfordlearnersdictionaries.com/search/english/?q=";
 
     OxfordDict(String keyWord) {
         try {
-            url = Jsoup.connect(searchQuery + keyWord)
+            String directedURL = Jsoup.connect(searchQuery + keyWord)
                     .followRedirects(true)
                     .execute().url().toExternalForm();
-            updateFields();
+            updateFields(directedURL);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    OxfordDict(String keyWord, String url) {
-        this.url = url;
-        updateFields();
-    }
-
-    private void updateFields()  {
+    public void findWordWithURL(String wordURL) {
         try {
-            Document page = Jsoup.connect(url).get();
-            //Get Pronunciation URL
-            soundURL = page.getElementsByClass("sound audio_play_button pron-us icon-audio").
-                    first().attr("data-src-mp3");
-
-            //Get Word
-            headWord = page.select(".headword[hclass=\"headword\"]").text();
-
-            //Get IPA
-            IPA = page.getElementsByClass("phons_n_am").first().text();
-
-            //Get Part Of Speech
-            pos = page.getElementsByClass("pos").first().text();
-
-            //Get Possible Conj
-            inflections = new ArrayList<>();
-            if (pos.equals("noun")) {
-                Elements plural = page.select(".inflections > .inflected_form");
-                for (Element form : plural) {
-                    inflections.add(form.ownText());
-                }
-            }
-            if (pos.equals("verb")) {
-                Elements verbForms = page.select(".verb_form > .verb_form");
-                if (verbForms.size() != 0) {
-                    for (Element form : verbForms) {
-                        inflections.add(form.ownText());
-                    }
-                }
-            }
-            if (pos.equals("adjective")) {
-                Elements comparison = page.select(".inflections > .inflected_form");
-                for (Element form : comparison) {
-                    inflections.add(form.text());
-                }
-            }
-            inflections.add(headWord + "s");
-            inflections.add(headWord + "es");
-            inflections.add(headWord);
-
-            //Get Definition
-            Elements defAndEx = page.select(".entry > .sense_single");
-            if (defAndEx.isEmpty()) {
-                //The word has more than 1 meaning
-                JFrame frame = new JFrame();
-                int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Oxford: There are more than 1 meaning, choose one meaning"));
-                System.out.println(userChoice);
-                String meaningTag = "[sensenum=" + userChoice + "]";
-                defAndEx = page.select(".entry > .senses_multiple .sense" + meaningTag);
-            }
-            freqUse = defAndEx.select(".sensetop > .cf").text();
-            def = defAndEx.select(".dis-g").text() + " "+ defAndEx.select(".def").text();
-
-            //Get Example
-            Elements elementsOfExamples = defAndEx.select(".sense > .examples [htag=\"li\"]");
-            examples = new ArrayList<>();
-            for (Element ex : elementsOfExamples) {
-                if (ex.children().size() == 1) {
-                    //The example doesn't have the headWord
-                    examples.add(new Example(ex.getElementsByClass("x").text()));
-                } else {
-                    //The example has the headWord
-                    examples.add(new Example(ex.getElementsByClass("cf").text(), ex.getElementsByClass("x").text()));
-                }
-            }
-            //Check for Extra example
-            Elements extraExamples = defAndEx.select(".collapse .examples [unbox=\"extra_examples\"] [htag=\"li\"]");
-            for (Element ex : extraExamples) {
-                //Extra examples don't have headword
-                examples.add(new Example(ex.getElementsByClass("unx").text()));
-            }
-        }
-        catch (Exception ex) {
+            updateFields(wordURL);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
     }
 
-    public String getUrl() {
-        return url;
+    OxfordDict(String keyWord, String keyWordURL) {
+        findWordWithURL(keyWordURL);
     }
 
-    public String getSoundURL() {
-        return soundURL;
+    public void setSoundURL() {
+        super.setSoundURL(getPage().getElementsByClass("sound audio_play_button pron-us icon-audio").
+                first().attr("data-src-mp3"));
     }
 
-    public String getHeadWord() {
-        return headWord;
+    public void setHeadWord() {
+        super.setHeadWord(getPage().select(".headword[hclass=\"headword\"]").text());
     }
 
-    public String getIPA() {
-        return IPA;
+    public void setIPA() {
+        super.setIPA(getPage().getElementsByClass("phons_n_am").first().text());
     }
 
-    public String getDef() {
-        return def;
+    public void setPos() {
+        super.setPos(getPage().getElementsByClass("pos").first().text());
     }
 
-    public ArrayList<Example> getExamples() {
-        return examples;
+    public void setInflections() {
+        ArrayList<String> inflections = new ArrayList<>();
+        if (getPos().equals("noun")) {
+            Elements plural = getPage().select(".inflections > .inflected_form");
+            for (Element form : plural) {
+                inflections.add(form.ownText());
+            }
+            inflections.add(getHeadWord() + "s");
+            inflections.add(getHeadWord() + "es");
+        }
+        if (getPos().equals("verb")) {
+            Elements verbForms = getPage().select(".verb_form > .verb_form");
+            if (verbForms.size() != 0) {
+                for (Element form : verbForms) {
+                    inflections.add(form.ownText());
+                }
+            }
+        }
+        if (getPos().equals("adjective")) {
+            Elements comparison = getPage().select(".inflections > .inflected_form");
+            for (Element form : comparison) {
+                inflections.add(form.text());
+            }
+        }
+        for (int i = 0; i < inflections.size(); i++)
+            if (inflections.get(i).equals(getHeadWord()))
+                inflections.remove(i);
+        inflections.add(getHeadWord());
+        super.setInflections(inflections);
     }
 
-    public String getPos() {
-        return pos;
+    @Override
+    public void setDefAndEx() {
+        //Get Definition
+        Elements defAndEx = getPage().select(".entry > .sense_single");
+        if (defAndEx.isEmpty()) {
+            //The word has more than 1 meaning
+            JFrame frame = new JFrame();
+            int userChoice = Integer.parseInt(JOptionPane.showInputDialog(frame, "Oxford: There are more than 1 meaning, choose one meaning"));
+            String meaningTag = "[sensenum=" + userChoice + "]";
+            defAndEx = getPage().select(".entry > .senses_multiple .sense" + meaningTag);
+        }
+        setFreqUse(defAndEx.select(".sensetop > .cf").text());
+        setDef(defAndEx.select(".def").text());
+
+        //Get Example
+        Elements elementsOfExamples = defAndEx.select(".sense > .examples [htag=\"li\"]");
+        ArrayList<Example> examples = new ArrayList<>();
+        for (Element ex : elementsOfExamples) {
+            if (ex.children().size() == 1) {
+                //The example doesn't have the headWord
+                examples.add(new Example(ex.getElementsByClass("x").text()));
+            }  else if (ex.children().size() == 2) {
+                //The example has the headWord
+                examples.add(new Example(ex.select(".cf,.labels").text(), ex.getElementsByClass("x").text()));
+            } else {
+                examples.add(new Example(ex.select(".cf").text() + " " + ex.select(".labels").text()
+                        , ex.getElementsByClass("x").text()));
+            }
+        }
+        //Check for Extra example
+        Elements extraExamples = defAndEx.select(".collapse .examples [unbox=\"extra_examples\"] [htag=\"li\"]");
+        for (Element ex : extraExamples) {
+            //Extra examples don't have headword
+            examples.add(new Example(ex.getElementsByClass("unx").text()));
+        }
+        setExamples(examples);
     }
 
-    public ArrayList<String> getInflections() {
-        return inflections;
-    }
-
-    public String getFreqUse() {
-        return freqUse;
+    public void updateFields(String wordURL)  {
+        clearFields();
+        setUrl(wordURL);
+        try {
+            setPage();
+            setSoundURL();
+            setHeadWord();
+            setIPA();
+            setPos();
+            setInflections();
+            setDefAndEx();
+        }
+        catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
