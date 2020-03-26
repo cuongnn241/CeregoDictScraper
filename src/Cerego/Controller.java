@@ -30,6 +30,7 @@ public class Controller {
     ArrayList<ExportedWord> listOfWords = new ArrayList<>();
     StringBuilder listOfExportedWord = new StringBuilder();
     private Word currentWord;
+    private int wordNumber = 0;
 
     @FXML private TextField keyWordTF;
     @FXML private TextField oxfordUrlTF;
@@ -140,7 +141,7 @@ public class Controller {
         for (int i = 4; i < rawFields.length; i++)
             examples.add(rawFields[i]);
         listOfWords.add(new ExportedWord(headWord, IPA, soundURL, def, examples));
-        listOfExportedWord.append(headWord).append("\n");
+        listOfExportedWord.append(wordNumber++).append(" " + headWord).append("\n");
         clearTF();
         exportedWordTextArea.setText(listOfExportedWord.toString());
     }
