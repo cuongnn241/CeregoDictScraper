@@ -52,7 +52,7 @@ public class CambridgeDict extends Dictionary {
         if (meanings.size() > 1) {
             TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
             meaningChoiseDialog.setTitle("Cambridge Dictionary");
-            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.setHeaderText("There are " + meanings.size() + " meanings, choose one");
             meaningChoiseDialog.showAndWait();
             int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
             meaningField = meanings.get(userChoice - 1);
@@ -64,7 +64,7 @@ public class CambridgeDict extends Dictionary {
         if (specMeaning.size() > 1) {
             TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
             meaningChoiseDialog.setTitle("Cambridge Dictionary");
-            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.setHeaderText("There are " + specMeaning.size() + " sub-meanings, choose one");
             meaningChoiseDialog.showAndWait();
             int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
             defAndEx = specMeaning.get(userChoice - 1);

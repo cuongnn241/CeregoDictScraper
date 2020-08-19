@@ -26,7 +26,7 @@ public class ExportedWord {
 
     public ArrayList<String> toStringArray() {
         ArrayList<String> stringData = new ArrayList<>();
-        stringData.add(word + " - " + IPA);
+        stringData.add(word);
         stringData.add(pronunciationURL);
         stringData.add(def);
         stringData.addAll(examples);

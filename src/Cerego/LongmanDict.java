@@ -46,21 +46,29 @@ public class LongmanDict extends Dictionary {
     }
 
     public void setDefAndEx() {
-        Elements meanings = getPage().select(".dictionary > .dictentry").first().select(".Sense");
+        Elements meanings = getPage().select(".dictionary > .dictentry");
+        int userChoice = 0;
+        if (meanings.size() > 1) {
+            TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
+            meaningChoiseDialog.setTitle("Longman Dictionary");
+            meaningChoiseDialog.setHeaderText("There are " + meanings.size() + "  meanings, choose one");
+            meaningChoiseDialog.showAndWait();
+            userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText()) - 1;
+        }
+        meanings = meanings.get(userChoice).select(".Sense");
         Element defAndEx;
         if (meanings.size() > 1) {
             TextInputDialog meaningChoiseDialog = new TextInputDialog("1");
             meaningChoiseDialog.setTitle("Longman Dictionary");
-            meaningChoiseDialog.setHeaderText("There are more than 1 meaning, choose one meaning");
+            meaningChoiseDialog.setHeaderText("There are " + meanings.size() + " sub-meaning, choose one");
             meaningChoiseDialog.showAndWait();
-            int userChoice = Integer.parseInt(meaningChoiseDialog.getEditor().getText());
-            defAndEx = meanings.get(userChoice - 1);
+            defAndEx = meanings.get(Integer.parseInt(meaningChoiseDialog.getEditor().getText()) - 1);
         } else {
             defAndEx = meanings.first();
         }
         setDef(defAndEx.select(".DEF").text());
         //Get the Example
-        Elements elementsOfExamples = defAndEx.select("> .EXAMPLE,.GramExa");
+        Elements elementsOfExamples = defAndEx.select("> .EXAMPLE,.GramExa,.ColloExa");
         ArrayList<Example> listOfExamples = new ArrayList<>();
         for (Element ex : elementsOfExamples) {
             if (ex.hasClass("GramExa")) {
@@ -68,7 +76,13 @@ public class LongmanDict extends Dictionary {
                 Elements subExamples = ex.select(".EXAMPLE");
                 for (Element subex : subExamples)
                     listOfExamples.add(new Example(headWord,subex.text()));
-            } else {
+            } else if (ex.hasClass("ColloExa")) {
+                String headWord = ex.select(".COLLO").text();
+                Elements subExamples = ex.select(".EXAMPLE");
+                for (Element subex : subExamples)
+                    listOfExamples.add(new Example(headWord,subex.text()));
+            }
+            else {
                 listOfExamples.add(new Example(ex.text()));
             }
         }
